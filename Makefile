@@ -15,6 +15,9 @@ SOURCE=nrand.c
 HEADER=nrand.h
 OBJECT=nrand.o
 
+TESTSOURCE=unittest.c
+TESTEXEC=unittest$(EXECSUFFIX)
+
 GENSOURCE=nrandgen.c
 GENEXEC=nrandgen$(EXECSUFFIX)
 
@@ -25,6 +28,11 @@ all: $(OBJECT) $(GENEXEC)
 $(OBJECT): $(SOURCE)
 	$(C) -fPIC -c -g $(CFLAGS) $(SOURCE) -o $(OBJECT)
 
+test: $(TESTEXEC)
+
+$(TESTEXEC): $(TESTSOURCE) $(OBJECT)
+	$(C) $(CFLAGS) $(TESTSOURCE) $(OBJECT) -o $(TESTEXEC)
+
 $(GENEXEC): $(GENSOURCE) $(OBJECT)
 	$(C) $(CFLAGS) $(GENSOURCE) $(OBJECT) -o $(GENEXEC)
 
@@ -34,6 +42,7 @@ install:
 
 clean:
 	$(RM) $(OBJECT)
+	$(RM) $(TESTEXEC)
 	$(RM) $(GENEXEC)
 
 distclean: clean
