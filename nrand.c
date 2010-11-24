@@ -1,6 +1,6 @@
 /*
  * Fernandez-Rivero-RNG - A fast normal distribution pseudo-random number generator
- * Copyright (C) 2009 by Daniel Reutter <reutter@psy.lmu.de>
+ * Copyright (C) 2009-2010 by Daniel Reutter <reutter@psy.lmu.de>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,14 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include <stdio.h>
+
 #ifndef PI
 #define PI 3.141592654
 #endif
 
 // Declaration of opaque function.
-double _OPAQUE_nrand(char reset, unsigned int rehash, double sd);
+double _OPAQUE_nrand(int reset, unsigned int rehash, double sd);
 
 
 void snrand(unsigned int seed, double sd)
@@ -58,7 +60,7 @@ inline void _OPAQUE_hash(unsigned int * const a) {
 
 // A Fernandez-Rivero random number generator which works by rotating two coordinates by random angles.
 // See http://www.springerlink.com/content/yj82465n0q755572/
-double _OPAQUE_nrand(char reset, unsigned int rehash, double sd) {
+double _OPAQUE_nrand(int reset, unsigned int rehash, double sd) {
 	const unsigned int N = 2048;  // Array size of r.
 	const unsigned int K = 1024;  // Array size of c and s.
 	static double rho = 0.1;      // rho of the normal distribution.
@@ -78,15 +80,7 @@ double _OPAQUE_nrand(char reset, unsigned int rehash, double sd) {
 		}
 	}
 
-	if (reset)
-	{
-		if (r != NULL)
-		{
-			free(r); r = NULL;
-		}
-	}
-
-	if (r == NULL) {
+	if (reset || r == NULL) {
 		unsigned int i = 0;
 		double theta;
 		const int modulo = 1048576;
@@ -96,17 +90,15 @@ double _OPAQUE_nrand(char reset, unsigned int rehash, double sd) {
 		rho = sd?sd:rho; // Don't change rho if there is no value for sd.
 
 		// Allocate the random, cosinus and sinus arrays.
-		if (c != NULL)
-		{
-			free(c);
+		if (c == NULL) {
+			c = (double *)malloc(K * sizeof(double));
 		}
-		if (s != NULL)
-		{
-			free(s);
+		if (s == NULL) {
+			s = (double *)malloc(K * sizeof(double));
 		}
-		r = (double *)malloc(N * sizeof(double));
-		c = (double *)malloc(K * sizeof(double));
-		s = (double *)malloc(K * sizeof(double));
+		if (r == NULL) {
+			r = (double *)malloc(N * sizeof(double));
+		}
 
 		// Randomly choose K angles and precompute cosinus and sinus for it.  Store in c, s.
 		for (i = 0; i < K; ++i) {
@@ -122,8 +114,7 @@ double _OPAQUE_nrand(char reset, unsigned int rehash, double sd) {
 		}
 
 		// Initialize by rotating every point at least once.
-		for (i = 0; i < N; ++i)
-		{
+		for (i = 0; i < N; ++i) {
 			// Randomly select an n different from m.
 			do {
 				_OPAQUE_hash(&ihash);
@@ -138,6 +129,9 @@ double _OPAQUE_nrand(char reset, unsigned int rehash, double sd) {
 			r[i] = x;
 		}
 
+		// Reset the counters.
+		n = 0;
+		m = 0;
 		secondp = 0;
 	}
 
