@@ -36,6 +36,7 @@ random number generator. Several milestones are yet to be achieved:
 
 - The thread safety is not given.
 - Some magic numbers appear in the code.
+- Hashes are no random numbers.
 
  +++ DOCUMENTATION +++
 
