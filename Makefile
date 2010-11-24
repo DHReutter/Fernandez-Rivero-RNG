@@ -15,20 +15,18 @@ SOURCE=nrand.c
 HEADER=nrand.h
 OBJECT=nrand.o
 
-TESTSOURCE=test.c
-TESTEXEC=runtest$(EXECSUFFIX)
+GENSOURCE=nrandgen.c
+GENEXEC=nrandgen$(EXECSUFFIX)
 
 .PHONY: install clean distclean test
 
-all: $(OBJECT)
+all: $(OBJECT) $(GENEXEC)
 
 $(OBJECT): $(SOURCE)
 	$(C) -fPIC -c -g $(CFLAGS) $(SOURCE) -o $(OBJECT)
 
-test: $(TESTEXEC)
-
-$(TESTEXEC): $(TESTSOURCE) $(OBJECT)
-	$(C) $(CFLAGS) $(TESTSOURCE) $(OBJECT) -o $(TESTEXEC)
+$(GENEXEC): $(GENSOURCE) $(OBJECT)
+	$(C) $(CFLAGS) $(GENSOURCE) $(OBJECT) -o $(GENEXEC)
 
 install:
 	# TODO: Implement install routine
@@ -36,7 +34,7 @@ install:
 
 clean:
 	$(RM) $(OBJECT)
-	$(RM) $(TESTEXEC)
+	$(RM) $(GENEXEC)
 
 distclean: clean
 
