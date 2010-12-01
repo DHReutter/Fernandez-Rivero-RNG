@@ -22,24 +22,24 @@
 
 int main(int argc, char *argv[]) {
 
-	double sd;
-	int n, seed;
-	int i;
+  double sd;
+  int n, seed;
+  int i;
 
-	if (argc < 4) {
-		printf("Too few arguments. Usage:\n%s [n] [seed] [sd]\n", argv[0]);
-		return -1;
-	}
+  if (argc < 4) {
+    printf("Too few arguments. Usage:\n%s [n] [seed] [sd]\n", argv[0]);
+    return -1;
+  }
 
-	n = atoi(argv[1]);
-	seed = atoi(argv[2]);
-	sd = atof(argv[3]);
+  n = atoi(argv[1]);
+  seed = atoi(argv[2]);
+  sd = atof(argv[3]);
 
-	snrand(seed, sd);
+  snrand(seed, sd);
 
-	for (i = 0; i < n; ++i) {
-		printf("%f\n", nrand());
-	}
+  for (i = 0; i < n; ++i) {
+    printf("%f\n", (double)nrand());
+  }
 
-	return 0;
+  return 0;
 }
