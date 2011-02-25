@@ -9,7 +9,8 @@ else
 endif
 
 C=gcc
-CFLAGS=-O3 -Wall
+CLIBS=-lm
+CFLAGS=-O3 -Wall $(CLIBS)
 
 SOURCE=nrand.c
 HEADER=nrand.h
