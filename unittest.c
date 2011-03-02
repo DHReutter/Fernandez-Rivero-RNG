@@ -41,9 +41,9 @@ double testdeviation(int seed, double sd) {
 
 	A = 0;
 	Q = 0;
-	snrand(seed, sd);
+	snrand(seed);
 	for (i = 0; i < N; ++i) {
-		rn = nrand();
+		rn = nrandsd(sd);
 		if (i) {
 			Q = Q + (i * sqr(rn - A)) / (i+1);
 			A = A + (rn - A)/(i+1);

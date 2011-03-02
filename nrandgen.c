@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
   seed = atoi(argv[2]);
   sd = atof(argv[3]);
 
-  snrand(seed, sd);
+  snrand(seed);
 
   for (i = 0; i < n; ++i) {
-    printf("%f\n", (double)nrand());
+    printf("%f\n", (double)nrandsd(sd));
   }
 
   return 0;
