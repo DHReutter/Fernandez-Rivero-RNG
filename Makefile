@@ -17,6 +17,10 @@ SOURCE=nrand.c
 HEADER=nrand.h
 OBJECT=nrand.o
 
+ifdef RANDOM_INIT
+	CDEFS=-DRANDOM_INIT_SEED
+endif
+
 TESTSOURCE=unittest.c
 TESTEXEC=unittest$(EXECSUFFIX)
 
@@ -28,7 +32,7 @@ GENEXEC=nrandgen$(EXECSUFFIX)
 all: $(OBJECT) $(GENEXEC)
 
 $(OBJECT): $(SOURCE)
-	$(C) -fPIC -c -g $(CFLAGS) $(SOURCE) -o $(OBJECT)
+	$(C) -fPIC -c -g $(CFLAGS) $(SOURCE) $(CDEFS) -o $(OBJECT)
 
 test: $(TESTEXEC)
 
