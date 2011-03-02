@@ -23,6 +23,7 @@
 
 #include <stdio.h>
 
+// Pi definition.
 #ifndef PI
 #ifdef M_PII
 #define PI (float_type)M_PII
@@ -30,7 +31,8 @@
 #ifdef M_PI
 #define PI (float_type)M_PI
 #else
-#define PI (float_type)3.141592654
+// 26 numbers of pi.
+#define PI (float_type)3.1415926535897932384626434
 #endif
 #endif
 #endif

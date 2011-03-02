@@ -10,7 +10,8 @@ endif
 
 C=gcc
 CLIBS=-lm
-CFLAGS=-O3 -Wall $(CLIBS)
+
+CFLAGS=-O3 -Wall
 
 SOURCE=nrand.c
 HEADER=nrand.h
@@ -32,10 +33,10 @@ $(OBJECT): $(SOURCE)
 test: $(TESTEXEC)
 
 $(TESTEXEC): $(TESTSOURCE) $(OBJECT)
-	$(C) $(CFLAGS) $(TESTSOURCE) $(OBJECT) -o $(TESTEXEC)
+	$(C) $(CFLAGS) $(CLIBS) $(TESTSOURCE) $(OBJECT) -o $(TESTEXEC)
 
 $(GENEXEC): $(GENSOURCE) $(OBJECT)
-	$(C) $(CFLAGS) $(GENSOURCE) $(OBJECT) -o $(GENEXEC)
+	$(C) $(CFLAGS) $(CLIBS) $(GENSOURCE) $(OBJECT) -o $(GENEXEC)
 
 install:
 	# TODO: Implement install routine
