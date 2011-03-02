@@ -17,6 +17,10 @@ SOURCE=nrand.c
 HEADER=nrand.h
 OBJECT=nrand.o
 
+ifdef COMPLETE_RANDOM
+	CDEFS=-DNO_HASH
+endif
+
 ifdef RANDOM_INIT
 	CDEFS=-DRANDOM_INIT_SEED
 endif
